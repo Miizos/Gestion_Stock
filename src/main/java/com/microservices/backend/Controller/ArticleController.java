@@ -1,6 +1,6 @@
 package com.microservices.backend.Controller;
 
-import com.microservices.backend.Entites.article.Articles;
+import com.microservices.backend.Entites.article.Article;
 import com.microservices.backend.Service.ArticleService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/articles")
-@CrossOrigin(origins = "http://localhost:5173") // Fixed: removed /**
+@CrossOrigin(origins = "http://localhost:5173")
 public class ArticleController {
 
     private static final Logger logger = LoggerFactory.getLogger(ArticleController.class);
@@ -28,10 +28,10 @@ public class ArticleController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Articles>> getAllArticles() {
+    public ResponseEntity<List<Article>> getAllArticles() {
         try {
             logger.info("Fetching all articles");
-            List<Articles> articles = articleService.getAllArticles();
+            List<Article> articles = articleService.getAllArticles();
             return ResponseEntity.ok(articles);
         } catch (Exception e) {
             logger.error("Error fetching all articles: ", e);
@@ -40,10 +40,10 @@ public class ArticleController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Articles> getArticleById(@PathVariable Long id) {
+    public ResponseEntity<Article> getArticleById(@PathVariable Long id) {
         try {
             logger.info("Fetching article with id: {}", id);
-            Optional<Articles> article = articleService.getArticleById(id);
+            Optional<Article> article = articleService.getArticleById(id);
             return article.map(ResponseEntity::ok)
                     .orElse(ResponseEntity.notFound().build());
         } catch (Exception e) {
@@ -53,10 +53,10 @@ public class ArticleController {
     }
 
     @PostMapping
-    public ResponseEntity<Articles> addArticle(@Valid @RequestBody Articles article) {
+    public ResponseEntity<Article> addArticle(@Valid @RequestBody Article article) {
         try {
             logger.info("Creating new article: {}", article.getReference()); // Assuming Articles has getTitle()
-            Articles savedArticle = articleService.addArticle(article);
+            Article savedArticle = articleService.addArticle(article);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedArticle);
         } catch (RuntimeException e) {
             logger.error("Runtime error creating article: ", e);
@@ -68,11 +68,11 @@ public class ArticleController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Articles> updateArticle(@PathVariable Long id,
-                                                  @Valid @RequestBody Articles articleDetails) {
+    public ResponseEntity<Article> updateArticle(@PathVariable Long id,
+                                                 @Valid @RequestBody Article articleDetails) {
         try {
             logger.info("Updating article with id: {}", id);
-            Articles updatedArticle = articleService.updateArticle(id, articleDetails);
+            Article updatedArticle = articleService.updateArticle(id, articleDetails);
             return ResponseEntity.ok(updatedArticle);
         } catch (RuntimeException e) {
             logger.error("Runtime error updating article with id {}: ", id, e);

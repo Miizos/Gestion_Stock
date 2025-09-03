@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "articles")
 @Builder
-public class Articles {
+public class Article {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -80,7 +80,7 @@ public class Articles {
         this.createdAt = createdAt;
     }
 
-    public Articles(Long id, String reference, String designation, Long stockSecurite, BigDecimal prixDAchatHT, BigDecimal prixDeVenteHT, BigDecimal tva, String image, LocalDateTime createdAt) {
+    public Article(Long id, String reference, String designation, Long stockSecurite, BigDecimal prixDAchatHT, BigDecimal prixDeVenteHT, BigDecimal tva, String image, LocalDateTime createdAt) {
         this.id = id;
         this.reference = reference;
         this.designation = designation;
@@ -92,7 +92,7 @@ public class Articles {
         this.createdAt = createdAt;
     }
 
-    public Articles() {
+    public Article() {
     }
 
 

@@ -1,6 +1,6 @@
 package com.microservices.backend.Service;
 
-import com.microservices.backend.Entites.article.Articles;
+import com.microservices.backend.Entites.article.Article;
 import com.microservices.backend.Repository.ArticleRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,23 +15,23 @@ public class ArticleService {
         this.articleRepository = articleRepository;
     }
 
-    public List<Articles> getAllArticles() {
+    public List<Article> getAllArticles() {
         return articleRepository.findAll();
     }
 
-    public Optional<Articles> getArticleById(Long id) {
+    public Optional<Article> getArticleById(Long id) {
         return articleRepository.findById(id);
     }
 
-    public Articles addArticle(Articles article) {
+    public Article addArticle(Article article) {
         if (articleRepository.existsByReference(article.getReference())) {
             throw new RuntimeException("Article with reference " + article.getReference() + " already exists");
         }
         return articleRepository.save(article);
     }
 
-    public Articles updateArticle(Long id, Articles articleDetails) {
-        Articles article = articleRepository.findById(id)
+    public Article updateArticle(Long id, Article articleDetails) {
+        Article article = articleRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Article not found with id: " + id));
 
         article.setReference(articleDetails.getReference());
